@@ -1,16 +1,32 @@
 public class InvoiceService {
 
-    private static final int COST_PER_TIME = 1;
-    private static final double MINIMUM_COST_PER_KILOMETER = 10;
-    private static final double MINIMUM_FARE = 5;
-    private RideRepository rideRepository;
+    public static final double MINIMUM_COST_PER_KILOMETER_NORMAL = 10 ;
+    public static final int COST_PER_TIME_NORMAL = 1 ;
+    public static final int MINIMUM_FARE_NORMAL=5;
 
-    public InvoiceService() {
+    public static final double MINIMUM_COST_PER_KILOMETER_PREMIUM = 15 ;
+    public static final int COST_PER_TIME_PREMIUM = 2 ;
+    public static final int MINIMUM_FARE_PREMIUM=20;
+    double totalFare=0;
+
+    private CabSubscriptions cabSubscriptions;
+    RideRepository rideRepository;
+
+    public InvoiceService(CabSubscriptions cabSubscriptions) {
         this.rideRepository=new RideRepository();
+        this.cabSubscriptions=cabSubscriptions;
     }
+
     public double calculateFare(double distance, int time) {
-        double totalFare= distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;
-        return Math.max(totalFare, MINIMUM_FARE);
+        if (CabSubscriptions.NORMAL.equals(this.cabSubscriptions)) {
+            double totalFare = distance * MINIMUM_COST_PER_KILOMETER_NORMAL + time * COST_PER_TIME_NORMAL;
+            return Math.max(totalFare, MINIMUM_FARE_NORMAL);
+        }
+        if (CabSubscriptions.PREMIUM.equals(this.cabSubscriptions)) {
+            double totalFare = distance * MINIMUM_COST_PER_KILOMETER_PREMIUM + time * COST_PER_TIME_PREMIUM;
+            return Math.max(totalFare, MINIMUM_FARE_PREMIUM);
+        }
+        return 0.0;
     }
 
     public InvoiceSummary calculateFare(Ride[] rides) {
