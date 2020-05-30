@@ -10,11 +10,15 @@ public class InvoiceService {
     double totalFare=0;
 
     private CabSubscriptions cabSubscriptions;
-    RideRepository rideRepository;
+    public RideRepository rideRepository;
 
     public InvoiceService(CabSubscriptions cabSubscriptions) {
         this.rideRepository=new RideRepository();
         this.cabSubscriptions=cabSubscriptions;
+    }
+
+    public void setCabSubscriptions(CabSubscriptions cabSubscriptions) {
+        this.cabSubscriptions = cabSubscriptions;
     }
 
     public double calculateFare(double distance, int time) {
