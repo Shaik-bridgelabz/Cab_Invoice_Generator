@@ -12,9 +12,16 @@ public class RideRepository {
     }
 
     public void addRides(String userId, Ride[] rides) {
-        ArrayList<Ride> rideList=this.userRides.get(userId);
-        if (rideList==null) {
-            this.userRides.put(userId,new ArrayList<>(Arrays.asList(rides)));       }
+        try {
+            if (userId.length() == 0)
+                throw new CabInvoiceException("UserId cannot be Empty", CabInvoiceException.ExceptionType.ENTERED_EMPTY);
+            ArrayList<Ride> rideList = this.userRides.get(userId);
+            if (rideList == null) {
+                this.userRides.put(userId, new ArrayList<>(Arrays.asList(rides)));
+            }
+        } catch (NullPointerException e) {
+            throw new CabInvoiceException("UserId cannot be Null", CabInvoiceException.ExceptionType.ENTERED_NULL);
+        }
     }
 
     public Ride[] getRides(String userId) {

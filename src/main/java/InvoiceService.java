@@ -30,7 +30,7 @@ public class InvoiceService {
             double totalFare = distance * MINIMUM_COST_PER_KILOMETER_PREMIUM + time * COST_PER_TIME_PREMIUM;
             return Math.max(totalFare, MINIMUM_FARE_PREMIUM);
         }
-        return 0.0;
+        throw new CabInvoiceException("Subscription Type is Not Proper", CabInvoiceException.ExceptionType.IMPROPER_SUBSCRIPTION);
     }
 
     public InvoiceSummary calculateFare(Ride[] rides) {
